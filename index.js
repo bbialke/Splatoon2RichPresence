@@ -4,6 +4,9 @@ const url = require('url');
 
 let mainWindow;
 
+//Update ENV for Production
+//process.env.NODE_ENV = 'production'
+
 function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1280,
