@@ -1,3 +1,4 @@
+// Selectors for game mode
 document.querySelector('#turfLink').addEventListener('click', function() {
   event.preventDefault();
   if(timer == null){
@@ -22,6 +23,25 @@ document.querySelector('#leagueLink').addEventListener('click', function() {
     console.log(`Selected: League Battle`)
     let ipcRenderer = require('electron').ipcRenderer;
     ipcRenderer.send('updateStatus', "League");
+    disableLinks();
+  }
+});
+// Selectors for other options
+document.querySelector('#joinYes').addEventListener('click', function() {
+  event.preventDefault();
+  if(timer == null){
+    console.log(`Selected: Allow Joining`)
+    let ipcRenderer = require('electron').ipcRenderer;
+    ipcRenderer.send('updateOptions', "joinAllowed");
+    disableLinks();
+  }
+});
+document.querySelector('#joinNo').addEventListener('click', function() {
+  event.preventDefault();
+  if(timer == null){
+    console.log(`Selected: League Battle`)
+    let ipcRenderer = require('electron').ipcRenderer;
+    ipcRenderer.send('updateOptions', "joinDisallowed");
     disableLinks();
   }
 });

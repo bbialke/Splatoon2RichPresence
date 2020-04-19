@@ -3,6 +3,7 @@ const path = require('path');
 const url = require('url');
 
 let mainWindow;
+let allowJoining = true;
 
 //Update ENV for Production
 //process.env.NODE_ENV = 'production'
@@ -28,7 +29,7 @@ function createWindow() {
     mainWindow = null;
   });
 
-  mainWindow.removeMenu();
+  //mainWindow.removeMenu();
 }
 
 app.on('ready', createWindow);
@@ -66,7 +67,21 @@ async function setActivity() {
 }
 
 async function updateActivity(matchType){
-    if(matchType == "Turf"){
+  if(matchType == "Turf"){
+    if(allowJoining == true){
+      client.updatePresence({
+        state: 'In a Match',
+        details: 'Turf War',
+        startTimestamp: Date.now(),
+        endTimestamp: Date.now() + 180000,
+        largeImageKey: 'mainlogo',
+        largeImageText: "Splatoon 2",
+        smallImageKey: 'turflogo',
+        smallImageText: 'Turf War',
+        joinSecret: "MTI4NzM0OjFpMmhuZToxMjMxMjM",
+        instance: true,
+      })
+    } else {
       client.updatePresence({
         state: 'In a Match',
         details: 'Turf War',
@@ -78,7 +93,9 @@ async function updateActivity(matchType){
         smallImageText: 'Turf War',
         instance: true,
       })
-    } else if (matchType == "Ranked"){
+    }
+  } else if (matchType == "Ranked"){
+    if(allowJoining == true){
       client.updatePresence({
         state: 'In a Match',
         details: 'Ranked Battle',
@@ -90,7 +107,35 @@ async function updateActivity(matchType){
         smallImageText: 'Ranked',
         instance: true,
       })
-    } else if (matchType == "League"){
+    } else {
+      client.updatePresence({
+        state: 'In a Match',
+        details: 'Ranked Battle',
+        startTimestamp: Date.now(),
+        endTimestamp: Date.now() + 180000,
+        largeImageKey: 'mainlogo',
+        largeImageText: "Splatoon 2",
+        smallImageKey: 'rankedlogo',
+        smallImageText: 'Ranked',
+        instance: true,
+      })
+    }
+  } else if (matchType == "League"){
+    if(allowJoining == true){
+      client.updatePresence({
+        state: 'Forming a Team...',
+        details: 'League Battle',
+        startTimestamp: Date.now(),
+        largeImageKey: 'mainlogo',
+        largeImageText: "Splatoon 2",
+        smallImageKey: 'leaguelogo',
+        smallImageText: 'League',
+        joinSecret: "MTI4NzM0OjFpMmhuZToxMjMxMjM",
+        partySize: 3,
+        partyMax: 4,
+        instance: true,
+      })
+    } else {
       client.updatePresence({
         state: 'Forming a Team...',
         details: 'League Battle',
@@ -103,9 +148,10 @@ async function updateActivity(matchType){
         partyMax: 4,
         instance: true,
       })
-    } else{
-      console.log(`Something went wrong.`)
     }
+  }  else{
+    console.log(`Something went wrong.`)
+  }
 }
 
 //When ready, set an initial status
@@ -136,5 +182,17 @@ ipcMain.on('updateStatus', function(event, data) {
   } else if (data == "League"){
     console.log(`Updating Status to League Battle`);
     updateActivity("League");
+  }
+});
+ipcMain.on('updateOptions', function(event, data) {
+  console.log(`Recieved ${data}`)
+  const client = require('discord-rich-presence')(clientId);
+  if(data == "joinAllowed"){
+    console.log(`Allowing Joins`);
+    allowJoining = true;
+  }
+  else if(data == "joinDisallowed"){
+    console.log(`Disallowing Joins`);
+    allowJoining = false;
   }
 });
