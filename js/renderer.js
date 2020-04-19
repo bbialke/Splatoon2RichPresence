@@ -50,7 +50,7 @@ document.querySelector('#joinNo').addEventListener('click', function() {
 var timer = null;
 
 function disableLinks() {
-  timer = setInterval(function(){enableLinks()},10000);
+  timer = setInterval(function(){enableLinks()},5000);
   //10 second delay
 }
 
