@@ -11,7 +11,7 @@ let allowJoining = true;
 function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1280,
-    height: 720,
+    height: 760,
     resizable: false,
     titleBarStyle: 'hidden',
     webPreferences: {
