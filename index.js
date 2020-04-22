@@ -48,10 +48,24 @@ app.on('activate', () => {
 const clientId = '700151046034423878';
 
 // only needed for discord allowing spectate, join, ask to join
-// DiscordRPC.register(clientId);
 
 const client = require('discord-rich-presence')(clientId);
 const startTimestamp = new Date();
+client.on('join', (secret) => {
+  console.log('we should join with', secret);
+});
+
+client.on('spectate', (secret) => {
+  console.log('we should spectate with', secret);
+});
+
+client.on('joinRequest', (user) => {
+  if (user.discriminator === '4945') {
+    client.reply(user, 'YES');
+  } else {
+    client.reply(user, 'IGNORE');
+  }
+});
 
 async function setActivity() {
   if (!client || !mainWindow) {
@@ -62,7 +76,6 @@ async function setActivity() {
     state: 'Getting Ready',
     largeImageKey: 'mainlogo',
     endTimestamp: Date.now() + 180000,
-    instance: true,
   });
 }
 
@@ -78,8 +91,12 @@ async function updateActivity(matchType){
         largeImageText: "Splatoon 2",
         smallImageKey: 'turflogo',
         smallImageText: 'Turf War',
-        joinSecret: "MTI4NzM0OjFpMmhuZToxMjMxMjM",
-        instance: true,
+        partyId: 'turf',
+        partySize: 1,
+        partyMax: 8,
+        matchSecret: 'TurfMatch',
+        joinSecret: 'shhhh',
+        spectateSecret: 'thisIsASecret',
       })
     } else {
       client.updatePresence({
@@ -91,7 +108,6 @@ async function updateActivity(matchType){
         largeImageText: "Splatoon 2",
         smallImageKey: 'turflogo',
         smallImageText: 'Turf War',
-        instance: true,
       })
     }
   } else if (matchType == "Ranked"){
@@ -105,7 +121,6 @@ async function updateActivity(matchType){
         largeImageText: "Splatoon 2",
         smallImageKey: 'rankedlogo',
         smallImageText: 'Ranked',
-        instance: true,
       })
     } else {
       client.updatePresence({
@@ -117,7 +132,6 @@ async function updateActivity(matchType){
         largeImageText: "Splatoon 2",
         smallImageKey: 'rankedlogo',
         smallImageText: 'Ranked',
-        instance: true,
       })
     }
   } else if (matchType == "League"){
@@ -130,10 +144,12 @@ async function updateActivity(matchType){
         largeImageText: "Splatoon 2",
         smallImageKey: 'leaguelogo',
         smallImageText: 'League',
-        joinSecret: "MTI4NzM0OjFpMmhuZToxMjMxMjM",
+        partyId: 'league',
         partySize: 3,
         partyMax: 4,
-        instance: true,
+        matchSecret: 'LeagueMatch',
+        joinSecret: 'shhhh',
+        spectateSecret: 'thisIsASecret',
       })
     } else {
       client.updatePresence({
@@ -146,7 +162,6 @@ async function updateActivity(matchType){
         smallImageText: 'League',
         partySize: 3,
         partyMax: 4,
-        instance: true,
       })
     }
   }  else{
