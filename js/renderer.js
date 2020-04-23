@@ -3,6 +3,7 @@ document.querySelector('#turfLink').addEventListener('click', function() {
   event.preventDefault();
   if(timer == null){
     console.log(`Selected: Turf War`)
+    displayCheckmarks('turf');
     let ipcRenderer = require('electron').ipcRenderer;
     ipcRenderer.send('updateStatus', "Turf");
     disableLinks();
@@ -12,6 +13,7 @@ document.querySelector('#rankedLink').addEventListener('click', function() {
   event.preventDefault();
   if(timer == null){
     console.log(`Selected: Ranked Battle`)
+    displayCheckmarks('ranked');
     let ipcRenderer = require('electron').ipcRenderer;
     ipcRenderer.send('updateStatus', "Ranked");
     disableLinks();
@@ -21,6 +23,7 @@ document.querySelector('#leagueLink').addEventListener('click', function() {
   event.preventDefault();
   if(timer == null){
     console.log(`Selected: League Battle`)
+    displayCheckmarks('league');
     let ipcRenderer = require('electron').ipcRenderer;
     ipcRenderer.send('updateStatus', "League");
     disableLinks();
@@ -57,4 +60,20 @@ function disableLinks() {
 function enableLinks(){
   clearInterval(timer);
   timer = null;
+}
+
+function displayCheckmarks(type){
+  if(type == 'turf'){
+    document.getElementById("turfCheck").style.display= '';
+    document.getElementById("rankedCheck").style.display= 'none';
+    document.getElementById("leagueCheck").style.display= 'none';
+  } else if(type == 'ranked'){
+    document.getElementById("turfCheck").style.display= 'none';
+    document.getElementById("rankedCheck").style.display= '';
+    document.getElementById("leagueCheck").style.display= 'none';
+  } else if(type == 'league'){
+    document.getElementById("turfCheck").style.display= 'none';
+    document.getElementById("rankedCheck").style.display= 'none';
+    document.getElementById("leagueCheck").style.display= '';
+  }
 }
