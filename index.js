@@ -75,7 +75,7 @@ async function setActivity() {
   client.updatePresence({
     state: 'Getting Ready',
     largeImageKey: 'mainlogo',
-    endTimestamp: Date.now() + 180000,
+    startTimestamp: Date.now(),
   });
 }
 
@@ -86,7 +86,7 @@ async function updateActivity(matchType){
         state: 'In a Match',
         details: 'Turf War',
         startTimestamp: Date.now(),
-        endTimestamp: Date.now() + 180000,
+        //endTimestamp: Date.now() + 180000,
         largeImageKey: 'mainlogo',
         largeImageText: "Splatoon 2",
         smallImageKey: 'turflogo',
@@ -103,7 +103,7 @@ async function updateActivity(matchType){
         state: 'In a Match',
         details: 'Turf War',
         startTimestamp: Date.now(),
-        endTimestamp: Date.now() + 180000,
+        //endTimestamp: Date.now() + 180000,
         largeImageKey: 'mainlogo',
         largeImageText: "Splatoon 2",
         smallImageKey: 'turflogo',
@@ -116,7 +116,7 @@ async function updateActivity(matchType){
         state: 'In a Match',
         details: 'Ranked Battle',
         startTimestamp: Date.now(),
-        endTimestamp: Date.now() + 180000,
+        //endTimestamp: Date.now() + 180000,
         largeImageKey: 'mainlogo',
         largeImageText: "Splatoon 2",
         smallImageKey: 'rankedlogo',
@@ -127,7 +127,7 @@ async function updateActivity(matchType){
         state: 'In a Match',
         details: 'Ranked Battle',
         startTimestamp: Date.now(),
-        endTimestamp: Date.now() + 180000,
+        //endTimestamp: Date.now() + 180000,
         largeImageKey: 'mainlogo',
         largeImageText: "Splatoon 2",
         smallImageKey: 'rankedlogo',
