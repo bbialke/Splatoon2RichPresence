@@ -34,6 +34,7 @@ document.querySelector('#joinYes').addEventListener('click', function() {
   event.preventDefault();
   if(timer == null){
     console.log(`Selected: Allow Joining`)
+    displayCheckmarks('joinYes');
     let ipcRenderer = require('electron').ipcRenderer;
     ipcRenderer.send('updateOptions', "joinAllowed");
     disableLinks();
@@ -43,18 +44,19 @@ document.querySelector('#joinNo').addEventListener('click', function() {
   event.preventDefault();
   if(timer == null){
     console.log(`Selected: League Battle`)
+    displayCheckmarks('joinNo');
     let ipcRenderer = require('electron').ipcRenderer;
     ipcRenderer.send('updateOptions', "joinDisallowed");
     disableLinks();
   }
 });
-// Disable/Re-enable links after a 10 second delay to avoid hitting a ratelimit
+// Disable/Re-enable links after a 5 second delay to avoid hitting a ratelimit
 
 var timer = null;
 
 function disableLinks() {
   timer = setInterval(function(){enableLinks()},5000);
-  //10 second delay
+  //5 second delay
 }
 
 function enableLinks(){
@@ -75,5 +77,11 @@ function displayCheckmarks(type){
     document.getElementById("turfCheck").style.display= 'none';
     document.getElementById("rankedCheck").style.display= 'none';
     document.getElementById("leagueCheck").style.display= '';
+  } else if(type == 'joinYes'){
+    document.getElementById("joinYes").innerHTML = '(Yes)';
+    document.getElementById("joinNo").innerHTML = 'No';
+  } else if(type == 'joinNo'){
+    document.getElementById("joinYes").innerHTML = 'Yes';
+    document.getElementById("joinNo").innerHTML = '(No)';
   }
 }
