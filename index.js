@@ -109,27 +109,15 @@ async function updateActivity(matchType){
       })
     }
   } else if (matchType == "Ranked"){
-    if(allowJoining == true){
-      client.updatePresence({
-        state: 'In a Match',
-        details: 'Ranked Battle',
-        startTimestamp: Date.now(),
-        largeImageKey: 'mainlogo',
-        largeImageText: "Splatoon 2",
-        smallImageKey: 'rankedlogo',
-        smallImageText: 'Ranked',
-      })
-    } else {
-      client.updatePresence({
-        state: 'In a Match',
-        details: 'Ranked Battle',
-        startTimestamp: Date.now(),
-        largeImageKey: 'mainlogo',
-        largeImageText: "Splatoon 2",
-        smallImageKey: 'rankedlogo',
-        smallImageText: 'Ranked',
-      })
-    }
+    client.updatePresence({
+      state: 'In a Match',
+      details: 'Ranked Battle',
+      startTimestamp: Date.now(),
+      largeImageKey: 'mainlogo',
+      largeImageText: "Splatoon 2",
+      smallImageKey: 'rankedlogo',
+      smallImageText: 'Ranked',
+    })
   } else if (matchType == "League"){
     if(allowJoining == true){
       client.updatePresence({
