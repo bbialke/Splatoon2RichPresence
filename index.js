@@ -7,6 +7,7 @@ let allowJoining = true;
 
 //Update ENV for Production
 //process.env.NODE_ENV = 'production'
+app.allowRendererProcessReuse = true;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -79,6 +80,8 @@ async function setActivity() {
   });
 }
 
+//This huge async function is neccecary (for some reason) to update the presence on all Discord clients,
+//when trying to move this into seperate files, the local client refused to update, so here it stays.
 async function updateActivity(matchType){
   if(matchType == "Turf"){
     if(allowJoining == true){
@@ -155,20 +158,11 @@ async function updateActivity(matchType){
 
 //When ready, set an initial status
 app.on('ready', () => {
+  console.log(`connected`);
   setActivity();
-
-  //Activity can be set 4 times every 20 seconds, but we update every 3 min to properly account for match time.
-  //Removed 4/17/20 in favor of update on click
-  // setInterval(() => {
-  //   setActivity();
-  // }, 10e3);
 });
 
 //IPCMain to handle updates to presence
-
-// Note - I have no idea what kind of BS this is, but discord only will update
-// presence for some reason if I do it through an async function...
-// if anyone out there knows what to do to fix this please let me know!
 ipcMain.on('updateStatus', function(event, data) {
   console.log(`Recieved ${data}`)
   const client = require('discord-rich-presence')(clientId);
@@ -183,6 +177,7 @@ ipcMain.on('updateStatus', function(event, data) {
     updateActivity("League");
   }
 });
+//IPCMain to handle updates to options
 ipcMain.on('updateOptions', function(event, data) {
   console.log(`Recieved ${data}`)
   const client = require('discord-rich-presence')(clientId);
