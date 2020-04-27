@@ -50,6 +50,26 @@ document.querySelector('#joinNo').addEventListener('click', function() {
     disableLinks();
   }
 });
+document.querySelector('#size2').addEventListener('click', function() {
+  event.preventDefault();
+  if(timer == null){
+    console.log(`Selected: League Battle`)
+    displayCheckmarks('size2');
+    let ipcRenderer = require('electron').ipcRenderer;
+    ipcRenderer.send('updateOptions', "size2");
+    disableLinks();
+  }
+});
+document.querySelector('#size4').addEventListener('click', function() {
+  event.preventDefault();
+  if(timer == null){
+    console.log(`Selected: League Battle`)
+    displayCheckmarks('size4');
+    let ipcRenderer = require('electron').ipcRenderer;
+    ipcRenderer.send('updateOptions', "size4");
+    disableLinks();
+  }
+});
 // Disable/Re-enable links after a 5 second delay to avoid hitting a ratelimit
 
 var timer = null;
@@ -83,5 +103,11 @@ function displayCheckmarks(type){
   } else if(type == 'joinNo'){
     document.getElementById("joinYes").innerHTML = 'Yes';
     document.getElementById("joinNo").innerHTML = '(No)';
+  } else if(type == 'size2'){
+    document.getElementById("size2").innerHTML = '(2 players)';
+    document.getElementById("size4").innerHTML = '4 players';
+  } else if(type == 'size4'){
+    document.getElementById("size2").innerHTML = '2 players';
+    document.getElementById("size4").innerHTML = '(4 players)';
   }
 }

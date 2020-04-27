@@ -4,6 +4,7 @@ const url = require('url');
 
 let mainWindow;
 let allowJoining = true;
+let leagueSize = 4;
 
 //Update ENV for Production
 //process.env.NODE_ENV = 'production'
@@ -47,10 +48,9 @@ app.on('activate', () => {
 
 // Client ID for connection
 const clientId = '700151046034423878';
+const client = require('discord-rich-presence')(clientId);
 
 // only needed for discord allowing spectate, join, ask to join
-
-const client = require('discord-rich-presence')(clientId);
 const startTimestamp = new Date();
 client.on('join', (secret) => {
   console.log('we should join with', secret);
@@ -122,34 +122,62 @@ async function updateActivity(matchType){
       smallImageText: 'Ranked',
     })
   } else if (matchType == "League"){
-    if(allowJoining == true){
-      client.updatePresence({
-        state: 'Forming a Team...',
-        details: 'League Battle',
-        startTimestamp: Date.now(),
-        largeImageKey: 'mainlogo',
-        largeImageText: "Splatoon 2",
-        smallImageKey: 'leaguelogo',
-        smallImageText: 'League',
-        partyId: 'league',
-        partySize: 1,
-        partyMax: 4,
-        matchSecret: 'LeagueMatch',
-        joinSecret: 'shhhh',
-        spectateSecret: 'thisIsASecret',
-      })
-    } else {
-      client.updatePresence({
-        state: 'Forming a Team...',
-        details: 'League Battle',
-        startTimestamp: Date.now(),
-        largeImageKey: 'mainlogo',
-        largeImageText: "Splatoon 2",
-        smallImageKey: 'leaguelogo',
-        smallImageText: 'League',
-        partySize: 1,
-        partyMax: 4,
-      })
+    if(leagueSize == 4){
+      if(allowJoining == true){
+        client.updatePresence({
+          state: 'Forming a Team...',
+          details: 'League Battle',
+          startTimestamp: Date.now(),
+          largeImageKey: 'mainlogo',
+          largeImageText: "Splatoon 2",
+          smallImageKey: 'leaguelogo',
+          smallImageText: 'League',
+          partyId: 'league',
+          partySize: 1,
+          partyMax: 4,
+          matchSecret: 'LeagueMatch',
+          joinSecret: 'shhhh',
+          spectateSecret: 'thisIsASecret',
+        })
+      } else {
+        client.updatePresence({
+          state: 'In a Match',
+          details: 'League Battle',
+          startTimestamp: Date.now(),
+          largeImageKey: 'mainlogo',
+          largeImageText: "Splatoon 2",
+          smallImageKey: 'leaguelogo',
+          smallImageText: 'League',
+        })
+      }
+    } else if (leagueSize == 2){
+      if(allowJoining == true){
+        client.updatePresence({
+          state: 'Forming a Team...',
+          details: 'League Battle',
+          startTimestamp: Date.now(),
+          largeImageKey: 'mainlogo',
+          largeImageText: "Splatoon 2",
+          smallImageKey: 'leaguelogo',
+          smallImageText: 'League',
+          partyId: 'league',
+          partySize: 1,
+          partyMax: 2,
+          matchSecret: 'LeagueMatch',
+          joinSecret: 'shhhh',
+          spectateSecret: 'thisIsASecret',
+        })
+      } else {
+        client.updatePresence({
+          state: 'In a Match',
+          details: 'League Battle',
+          startTimestamp: Date.now(),
+          largeImageKey: 'mainlogo',
+          largeImageText: "Splatoon 2",
+          smallImageKey: 'leaguelogo',
+          smallImageText: 'League',
+        })
+      }
     }
   }  else{
     console.log(`Something went wrong.`)
@@ -165,7 +193,6 @@ app.on('ready', () => {
 //IPCMain to handle updates to presence
 ipcMain.on('updateStatus', function(event, data) {
   console.log(`Recieved ${data}`)
-  const client = require('discord-rich-presence')(clientId);
   if(data == "Turf"){
     console.log(`Updating Status to Turf War`);
     updateActivity("Turf");
@@ -180,7 +207,6 @@ ipcMain.on('updateStatus', function(event, data) {
 //IPCMain to handle updates to options
 ipcMain.on('updateOptions', function(event, data) {
   console.log(`Recieved ${data}`)
-  const client = require('discord-rich-presence')(clientId);
   if(data == "joinAllowed"){
     console.log(`Allowing Joins`);
     allowJoining = true;
@@ -188,5 +214,11 @@ ipcMain.on('updateOptions', function(event, data) {
   else if(data == "joinDisallowed"){
     console.log(`Disallowing Joins`);
     allowJoining = false;
+  } else if(data == "size2"){
+    console.log(`Setting League size to 2`);
+    leagueSize = 2;
+  } else if(data == "size4"){
+    console.log(`Setting League size to 4`);
+    leagueSize = 4;
   }
 });
