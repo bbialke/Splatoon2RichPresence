@@ -135,7 +135,7 @@ async function updateActivity(matchType){
           partyId: 'league',
           partySize: 1,
           partyMax: 4,
-          matchSecret: 'LeagueMatch',
+          matchSecret: 'LeagueMatch4',
           joinSecret: 'shhhh',
           spectateSecret: 'thisIsASecret',
         })
@@ -163,7 +163,7 @@ async function updateActivity(matchType){
           partyId: 'league',
           partySize: 1,
           partyMax: 2,
-          matchSecret: 'LeagueMatch',
+          matchSecret: 'LeagueMatch2',
           joinSecret: 'shhhh',
           spectateSecret: 'thisIsASecret',
         })
