@@ -30,6 +30,7 @@ body{
     background-size: 100% 100%,80px 80px;
 }
 .main-box, .small-box{
+    box-shadow: 10px 10px 5px grey;
     -webkit-mask-image: url("../img/cutout.png");
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-size: 600px 960px;
