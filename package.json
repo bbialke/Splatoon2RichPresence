@@ -1,11 +1,11 @@
 {
-  "name": "splatoonrichpresence",
+  "name": "Splatoon2RichPresence",
   "version": "1.0.0",
   "description": "A tool to allow Discord rich presence to be used for Splatoon 2 on Nintendo Switch",
   "main": "index.js",
   "scripts": {
     "start": "electron .",
-    "dist": "build",
+    "dist": "electron-builder build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -23,9 +23,12 @@
     "electron-builder": "^22.6.0"
   },
   "build": {
+    "nsis": {
+      "oneClick": false
+    },
    "appId": "com.bradleybialke.splatoon2richpresence",
    "win": {
-     "target": "nsis",
+     "target": "portable",
      "icon": "build/icon.ico"
    }
 },
